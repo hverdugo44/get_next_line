@@ -1,5 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: heverdug <heverdug@student.42barcelon      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/11 13:47:23 by heverdug          #+#    #+#             */
+/*   Updated: 2025/10/11 14:00:21 by heverdug         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
+char	clean_line(char *buff)
+{
+	int		i;
+
+	char	*str;
+
+	i = -1;
+	while (buff[i] && buff[i] != 10)
 char	*ft_strjoin(char const *s1, const char *s2)
 {
 	char	*str;
@@ -52,6 +72,21 @@ char	*find_sl(char *buff, int fd)
 	return (buff);
 }
 
+char	*clean_buff(char *buff)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	while (buff[i] == 10)
+		i++;
+	str = ft_strdup(&buff[i]);
+	if (!str)
+		return (NULL);
+	free(buff);
+	return (str);
+}
+
 char	*get_next_line(int fd)
 {
 	char	*buff;
@@ -61,4 +96,9 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	buff = find_sl(buff, fd);
-	
+	if (buff[0] == 10)
+	{
+		buff = clean_buff(buff);
+		buff = find_sl(buff, fd);
+	}
+	resultado = clean_line(char *buff);
