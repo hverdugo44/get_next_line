@@ -10,7 +10,7 @@
 # include <stdlib.h>
 # include <limits.h>
 
-char	*ft_strjoin(char const *s1, const char *s2);
+char	*ft_strjoin(char *s1, char *s2);
 char	*find_sl(char *buff, int fd);
 char	*get_next_line(int fd);
 size_t	ft_strlen(char const *s);

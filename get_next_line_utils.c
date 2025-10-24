@@ -3,27 +3,14 @@
 void	*ft_calloc(size_t n, size_t size)
 {
 	char	*ptr;
-	size_t	i;
+	long	i;
 
-	i = 0;
-	if (n == 0 || size == 0)
-	{
-		ptr = (char *)malloc(1);
-		if (!ptr)
-			return (NULL);
-		ptr[0] = 0;
-	}
-	else
-	{
-		ptr = (char *)malloc(n * size);
-		if (!ptr)
-			return (NULL);
-		while (i <= n * size)
-		{
-			ptr[i] = 0;
-			i++;
-		}
-	}
+	i = n * size;
+	ptr = (char *)malloc(i);
+	if (!ptr)
+		return (NULL);
+	while (--i >= 0)
+		ptr[i] = 0;
 	return ((void *)ptr);
 }
 
@@ -59,6 +46,8 @@ char	*ft_strchr(char const *s, int c)
 	int				i;
 	unsigned char	*cpy;
 
+	if (!s)
+		return (NULL);
 	cpy = (unsigned char *)s;
 	i = 0;
 	while (cpy[i])
@@ -67,7 +56,5 @@ char	*ft_strchr(char const *s, int c)
 			return ((char *)&cpy[i]);
 		i++;
 	}
-	if (cpy[i] == (unsigned char)c)
-		return ((char *)&cpy[i]);
 	return (NULL);
 }

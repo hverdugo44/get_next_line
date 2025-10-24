@@ -6,28 +6,40 @@
 /*   By: heverdug <heverdug@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 13:47:23 by heverdug          #+#    #+#             */
-/*   Updated: 2025/10/11 14:00:21 by heverdug         ###   ########.fr       */
+/*   Updated: 2025/10/24 11:43:41 by heverdug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	clean_line(char *buff)
+char	*clean_line(char *buff)
 {
 	int		i;
-
 	char	*str;
 
-	i = -1;
+	i = 0;
+	if (!buff)
+		return (NULL);
 	while (buff[i] && buff[i] != 10)
-char	*ft_strjoin(char const *s1, const char *s2)
+		i++;
+	if (buff[i] != 0)
+		i++;
+	str = (char *)ft_calloc(i + 1, 1);
+	if (!str)
+		return (NULL);
+	while (--i >= 0)
+		str[i] = buff[i];
+	return (str);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	int		i;
 	int		j;
 
 	if (!s1)
-		return (ft_strdup(s2));
+		return ((char *)s2);
 	i = -1;
 	j = -1;
 	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
@@ -48,7 +60,7 @@ char	*find_sl(char *buff, int fd)
 	char	*tmp;
 	int		rd;
 
-	while (!strchr(buff, fd))
+	while (!ft_strchr(buff, 10))
 	{
 		tmp = (char *)ft_calloc(BUFFER_SIZE + 1, 1);
 		if (!tmp)
@@ -78,27 +90,27 @@ char	*clean_buff(char *buff)
 	char	*str;
 
 	i = 0;
-	while (buff[i] == 10)
-		i++;
-	str = ft_strdup(&buff[i]);
-	if (!str)
+	if (!buff)
 		return (NULL);
+	while (buff[i] && buff[i] != 10)
+		i++;
+	if (buff[i] == 0)
+		str = NULL;
+	else
+		str = ft_strdup(&buff[i + 1]);
 	free(buff);
 	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	char	*buff;
-	char	*resultado;
-	int		i;
+	static char	*buff = NULL;
+	char		*resultado;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	buff = find_sl(buff, fd);
-	if (buff[0] == 10)
-	{
-		buff = clean_buff(buff);
-		buff = find_sl(buff, fd);
-	}
-	resultado = clean_line(char *buff);
+	resultado = clean_line(buff);
+	buff = clean_buff(buff);
+	return (resultado);
+}
